@@ -9,3 +9,4 @@ const requestCountries = async () => {
     console.log(countries);
 }
 requestCountries();
+console.log('hello');
