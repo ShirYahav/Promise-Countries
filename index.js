@@ -47,9 +47,13 @@ function createCountry(country) {
     return countryLink;
 }
 
+let countries = [];
+
+//wrap in try catch
 const requestCountries = async () => {
     const response = await fetch("https://restcountries.com/v3.1/all");
-    const countries = await response.json();
+    const data = await response.json();
+    countries = data;
 
     const countriesGrid = document.querySelector(".countries-grid");
 
@@ -57,8 +61,43 @@ const requestCountries = async () => {
         const countryBlock = createCountry(country);
         countriesGrid.appendChild(countryBlock);
     });
- 
-    console.log(countries);
-}
+ }
+
 requestCountries();
+
+const dropdownWrapper = document.querySelector('.dropdown-wrapper');
+const dropdownHeader = document.querySelector('.dropdown-header');
+
+dropdownHeader.addEventListener('click', () => {
+    dropdownWrapper.classList.toggle('open');
+});
+
+const dropDownItems = document.querySelectorAll('.dropdown-body li');
+dropDownItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const selectedRegion = item.getAttribute('data-region');
+        filterCountriesByRegion(selectedRegion);
+        dropdownWrapper.classList.remove('open');
+    });
+});
+
+const updateDisplay = (countries) => {
+    const countriesGrid = document.querySelector(".countries-grid");
+    countriesGrid.innerHTML = "";
+
+    countries.forEach(country => {
+        const countryBlock = createCountry(country);
+        countriesGrid.appendChild(countryBlock)
+    });
+}
+
+const filterCountriesByRegion = (region) => {
+    if (region === "all") {
+        updateDisplay(countries);
+    } else {
+        const filteredCountries = countries.filter(country => country.region === region);
+        updateDisplay(filteredCountries);
+    }
+}
+
 
