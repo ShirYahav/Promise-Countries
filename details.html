@@ -28,12 +28,6 @@
     <title>Details Page</title>
   </head>
   <body>
-    <!-- Loader -->
-    <div class="loader">
-      <div class="spinner">
-        <i class="fa-regular fa-circle-notch fa-spin icon"></i>
-      </div>
-    </div>
     <!-- Scroll Top -->
     <button
       type="button"
@@ -71,10 +65,33 @@
     </div>
     <main class="main">
       <div class="container">
-        <section class="country-details"></section>
+        <section class="country-details">
+          <div class="country-flag">
+            <img id="country-img" alt="Country Flag">
+          </div>
+          <div class="country-info">
+            <h1 id="country-name"></h1>
+            <div class="col-2">
+              <div class="col-2">
+                <ul>
+                  <li><strong>Population:</strong> <span id="population"></span> </li>
+                  <li><strong>Region:</strong> <span id="region"></span> </li>
+                  <li><strong>Capital:</strong> <span id="capital"></span> </li>
+                </ul>
+              </div>
+              <div class="col-2">
+                <ul>
+                  <li><strong>Area:</strong> <span id ="area"></span> </li>
+                  <li><strong>Language:</strong> <span id ="first-language"></span> <span id ="second-language"></span></li>
+                  <li><strong>Currency:</strong> <span id ="currency"></span> </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
-    <script src="./js/common.js"></script>
-    <script src="./js/details.js"></script>
+
+    <script type="text/javascript" src="details.js"></script>
   </body>
 </html>

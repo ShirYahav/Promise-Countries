@@ -1,12 +1,8 @@
-//Tasks:
-// Extract all countries from api using fetch and present 
-// make filter button work
-//when clicking a country switch to details.html
 
 function createCountry(country) {
 
     const countryLink = document.createElement("a");
-    countryLink.href = "#";
+    countryLink.href = `details.html?country=${encodeURIComponent(country.name.common)}`;
     countryLink.className = "country scale-effect";
     countryLink.setAttribute("data-country-name", country.name.common);
 
@@ -44,23 +40,33 @@ function createCountry(country) {
     countryLink.appendChild(countryFlagDiv);
     countryLink.appendChild(countryInfoDiv);
 
+    countryLink.addEventListener("click", () => {
+        window.location.href = countryLink.href;
+    });
+
     return countryLink;
 }
 
 let countries = [];
 
-//wrap in try catch
 const requestCountries = async () => {
-    const response = await fetch("https://restcountries.com/v3.1/all");
-    const data = await response.json();
-    countries = data;
-
-    const countriesGrid = document.querySelector(".countries-grid");
-
-    countries.forEach(country => {
-        const countryBlock = createCountry(country);
-        countriesGrid.appendChild(countryBlock);
-    });
+    try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        const data = await response.json();
+        countries = data;
+    
+        const countriesGrid = document.querySelector(".countries-grid");
+    
+        countries.forEach(country => {
+            const countryBlock = createCountry(country);
+            countriesGrid.appendChild(countryBlock);
+        });
+    } catch (error) {
+        console.error('Error fetching country data:', error);
+    }
  }
 
 requestCountries();
@@ -100,4 +106,18 @@ const filterCountriesByRegion = (region) => {
     }
 }
 
+const searchInput = document.querySelector('.search-input');
 
+searchInput.addEventListener('input', function() {
+    const filteredValue = this.value.toUpperCase();
+    const countryLinks = document.querySelectorAll('.country');
+
+    countryLinks.forEach(countryLink => {
+        const countryName = countryLink.getAttribute('data-country-name').toUpperCase();
+        if(countryName.includes(filteredValue)){
+            countryLink.style.display = '';
+        } else {
+            countryLink.style.display = 'none';
+        }
+    });
+});
